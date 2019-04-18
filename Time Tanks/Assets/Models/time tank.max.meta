@@ -69,6 +69,24 @@ ModelImporter:
     100126: Middlehousing
     100128: Pipe
     100130: Powerpack
+    100132: buttons
+    100134: Cylinder003
+    100136: Cylinder004
+    100138: joystick
+    100140: joystick 1
+    100142: joystick holder
+    100144: Line011
+    100146: Line012
+    100148: Monitor
+    100150: Monitor 1
+    100152: Monitor screen
+    100154: MonitorFrame
+    100156: MonitorStand
+    100158: MonitorStandBase
+    100160: Move console
+    100162: Sphere001
+    100164: Torus001
+    100166: webcam
     400000: Base
     400002: Cockpit
     400004: //RootNode
@@ -135,6 +153,24 @@ ModelImporter:
     400126: Middlehousing
     400128: Pipe
     400130: Powerpack
+    400132: buttons
+    400134: Cylinder003
+    400136: Cylinder004
+    400138: joystick
+    400140: joystick 1
+    400142: joystick holder
+    400144: Line011
+    400146: Line012
+    400148: Monitor
+    400150: Monitor 1
+    400152: Monitor screen
+    400154: MonitorFrame
+    400156: MonitorStand
+    400158: MonitorStandBase
+    400160: Move console
+    400162: Sphere001
+    400164: Torus001
+    400166: webcam
     2100000: No Name
     2100002: 'Material #25'
     2100004: Glass
@@ -146,6 +182,8 @@ ModelImporter:
     2100016: Interior Lights
     2100018: Red
     2100020: Pipe
+    2100022: Monitor frame
+    2100024: Monitor screen
     2300000: Base
     2300002: Cockpit
     2300004: Tread guard
@@ -200,6 +238,20 @@ ModelImporter:
     2300102: Line010
     2300104: Loft001
     2300106: Middlehousing
+    2300108: Cylinder003
+    2300110: Cylinder004
+    2300112: joystick holder
+    2300114: Line011
+    2300116: Line012
+    2300118: Monitor 1
+    2300120: Monitor screen
+    2300122: MonitorFrame
+    2300124: MonitorStand
+    2300126: MonitorStandBase
+    2300128: Move console
+    2300130: Sphere001
+    2300132: Torus001
+    2300134: webcam
     3300000: Base
     3300002: Cockpit
     3300004: Tread guard
@@ -254,6 +306,20 @@ ModelImporter:
     3300102: Line010
     3300104: Loft001
     3300106: Middlehousing
+    3300108: Cylinder003
+    3300110: Cylinder004
+    3300112: joystick holder
+    3300114: Line011
+    3300116: Line012
+    3300118: Monitor 1
+    3300120: Monitor screen
+    3300122: MonitorFrame
+    3300124: MonitorStand
+    3300126: MonitorStandBase
+    3300128: Move console
+    3300130: Sphere001
+    3300132: Torus001
+    3300134: webcam
     4300000: Cockpit
     4300002: Wheel003
     4300004: TreadHousing1
@@ -308,6 +374,20 @@ ModelImporter:
     4300102: Box001
     4300104: Box002
     4300106: Loft001
+    4300108: Move console
+    4300110: Monitor
+    4300112: Sphere001
+    4300114: webcam
+    4300116: MonitorStandBase
+    4300118: MonitorStand
+    4300120: MonitorFrame
+    4300122: Monitor screen
+    4300124: Line012
+    4300126: Line011
+    4300128: Torus001
+    4300130: joystick holder
+    4300132: Cylinder004
+    4300134: Cylinder003
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -339,6 +419,21 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Light
     second: {instanceID: 0}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Monitor frame
+    second: {fileID: 2100000, guid: e41930290b4a2b748a4d05e3ae9da8fb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Monitor screen
+    second: {fileID: 2100000, guid: f260987ce91c0f24ebbbcd38f8fb7f21, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: 2673b74f990b89c4da12650d063947fb, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
