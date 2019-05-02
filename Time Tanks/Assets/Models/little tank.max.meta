@@ -61,6 +61,14 @@ ModelImporter:
     100110: WheelOuter008
     100112: WheelOuter009
     100114: Wheels
+    100116: Exhaust
+    100118: ExhaustBase
+    100120: FuelTank
+    100122: Hatch
+    100124: HatchBase
+    100126: HatchHinge
+    100128: HatchLid
+    100130: SidePanel
     400000: Base
     400002: Base001
     400004: Cannon
@@ -119,6 +127,14 @@ ModelImporter:
     400110: WheelOuter008
     400112: WheelOuter009
     400114: Wheels
+    400116: Exhaust
+    400118: ExhaustBase
+    400120: FuelTank
+    400122: Hatch
+    400124: HatchBase
+    400126: HatchHinge
+    400128: HatchLid
+    400130: SidePanel
     2100000: No Name
     2100002: CannonHolder
     2100004: Cannon
@@ -171,6 +187,13 @@ ModelImporter:
     2300086: WheelOuter007
     2300088: WheelOuter008
     2300090: WheelOuter009
+    2300092: Exhaust
+    2300094: ExhaustBase
+    2300096: FuelTank
+    2300098: HatchBase
+    2300100: HatchHinge
+    2300102: HatchLid
+    2300104: SidePanel
     3300000: Base
     3300002: Base001
     3300004: Cannon
@@ -217,6 +240,13 @@ ModelImporter:
     3300086: WheelOuter007
     3300088: WheelOuter008
     3300090: WheelOuter009
+    3300092: Exhaust
+    3300094: ExhaustBase
+    3300096: FuelTank
+    3300098: HatchBase
+    3300100: HatchHinge
+    3300102: HatchLid
+    3300104: SidePanel
     4300000: Base
     4300002: TreadInner
     4300004: Base001
@@ -263,6 +293,13 @@ ModelImporter:
     4300086: Cannon
     4300088: UpperFront
     4300090: UpperBack
+    4300092: ExhaustBase
+    4300094: Exhaust
+    4300096: SidePanel
+    4300098: FuelTank
+    4300100: HatchLid
+    4300102: HatchBase
+    4300104: HatchHinge
   externalObjects:
   - first:
       type: UnityEngine:Material
