@@ -14,6 +14,6 @@ public class TankMovement : MonoBehaviour
 
     public void OnMovementChanged(MovementControl oldMovement, MovementControl newMovement)
     {
-        Debug.Log(newMovement);
+
     }
 }
