@@ -62,6 +62,7 @@ ModelImporter:
     100112: Upper 1
     100114: Body
     100116: Treads
+    100118: HatchLower
     400000: Base
     400002: Base001
     400004: Cannon
@@ -121,6 +122,7 @@ ModelImporter:
     400112: Upper 1
     400114: Body
     400116: Treads
+    400118: HatchLower
     2100000: Dark
     2100002: No Name
     2100004: Grey
@@ -128,6 +130,8 @@ ModelImporter:
     2100008: Cannon
     2100010: Upper
     2100012: Hatch
+    2100014: Fuel container
+    2100016: Lower
     2300000: Base
     2300002: Base001
     2300004: Cannon
@@ -171,6 +175,7 @@ ModelImporter:
     2300080: WheelOuter008
     2300082: WheelOuter009
     2300084: Upper 1
+    2300086: HatchLower
     3300000: Base
     3300002: Base001
     3300004: Cannon
@@ -214,6 +219,7 @@ ModelImporter:
     3300080: WheelOuter008
     3300082: WheelOuter009
     3300084: Upper 1
+    3300086: HatchLower
     4300000: Base
     4300002: TreadInner
     4300004: Base001
@@ -256,9 +262,25 @@ ModelImporter:
     4300078: Exhaust
     4300080: FuelTank
     4300082: HatchLid
+    4300084: HatchLower
     9500000: //RootNode
     10800000: Sky001
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fuel container
+    second: {fileID: 2100000, guid: ea820eab5050dfe4f885a5db3d280239, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lower
+    second: {fileID: 2100000, guid: 81cfcd9bc8643f141a922e516981fda9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Upper
+    second: {fileID: 2100000, guid: f84c8f78e7921d24794fcb9ef74dfaea, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
