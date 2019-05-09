@@ -78,11 +78,11 @@ MonoBehaviour:
       useCameraFov: 0
       kernelSize: 1
   motionBlur:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
-      shutterAngle: 270
-      sampleCount: 25
-      frameBlending: 0.04
+      shutterAngle: 49
+      sampleCount: 32
+      frameBlending: 0.886
   eyeAdaptation:
     m_Enabled: 0
     m_Settings:
@@ -148,8 +148,8 @@ MonoBehaviour:
             serializedVersion: 2
             m_Curve:
             - serializedVersion: 3
-              time: 0.035555556
-              value: 0.049019635
+              time: 0.0035211267
+              value: 0
               inSlope: 1.1733415
               outSlope: 1.1733415
               tangentMode: 0
@@ -157,7 +157,7 @@ MonoBehaviour:
               inWeight: 0
               outWeight: 0
             - serializedVersion: 3
-              time: 0.63555557
+              time: 0.60915494
               value: 1
               inSlope: 1
               outSlope: 1

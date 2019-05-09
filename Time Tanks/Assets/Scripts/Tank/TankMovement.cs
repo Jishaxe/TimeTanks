@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,10 +10,19 @@ public class TankMovement : MonoBehaviour
 
     public Rigidbody rb;
 
-
+    // Keep turnSpeed pretty close to forwardSpeed otherwise turning while going forwards slows tank down
     public float forwardSpeed;
     public float reverseSpeed;
+    public float brakeTorque;
     public float turnSpeed;
+
+    // Sideways friction changes when tank is at speed.
+    public float velocityBeforeConsideringToBeTravelling;
+    public float sidewaysStiffnessAtTravel;
+    public float sidewaysStiffnessAtRest;
+
+    public WheelCollider[] leftWheels;
+    public WheelCollider[] rightWheels;
 
     private void Awake()
     {
@@ -22,31 +32,85 @@ public class TankMovement : MonoBehaviour
 
     public void OnMovementChanged(MovementControl oldMovement, MovementControl newMovement)
     {
+        // this is then acted on in update
         currentMovement = newMovement;
+    }
 
-        if (currentMovement.forwards)
+    // Set the torque for the whole left row of wheels
+    public void SetLeftTorque(float torque)
+    {
+        foreach (WheelCollider collider in leftWheels) collider.motorTorque = torque;
+    }
+
+    // Set the torque for whole right row of wheels
+    public void SetRightTorque(float torque)
+    {
+        foreach (WheelCollider collider in rightWheels) collider.motorTorque = torque;
+    }
+
+    // update sideways friction stiffness for all wheels
+    public void SetSidewaysStiffness(float newStiffness)
+    {
+        foreach (WheelCollider collider in leftWheels)
         {
-           rb.AddForce(transform.forward * forwardSpeed * Time.deltaTime, ForceMode.Acceleration);
+            WheelFrictionCurve friction = collider.sidewaysFriction;
+            friction.stiffness = newStiffness;
+            collider.sidewaysFriction = friction;
         }
 
-        if (currentMovement.reverse)
+        foreach (WheelCollider collider in rightWheels)
         {
-            rb.AddForce(-transform.forward * reverseSpeed * Time.deltaTime, ForceMode.Acceleration);
-        }
-
-        if (currentMovement.right)
-        {
-            rb.AddRelativeTorque(Vector3.up * turnSpeed * Time.deltaTime, ForceMode.VelocityChange);
-        }
-
-        if (currentMovement.left)
-        {
-            rb.AddRelativeTorque(Vector3.up * -turnSpeed * Time.deltaTime, ForceMode.VelocityChange);
+            WheelFrictionCurve friction = collider.sidewaysFriction;
+            friction.stiffness = newStiffness;
+            collider.sidewaysFriction = friction;
         }
     }
 
     public void Update()
-    { 
+    {
+        // Reset the motor speed from last update
+        SetLeftTorque(0);
+        SetRightTorque(0);
 
+
+        if (currentMovement.forwards)
+        {
+            // both treads at same speed to go forwards
+            SetLeftTorque(forwardSpeed);
+            SetRightTorque(forwardSpeed);
+        }
+
+        if (currentMovement.reverse)
+        {
+            // and both on reverse for backwards
+            SetLeftTorque(-reverseSpeed);
+            SetRightTorque(-reverseSpeed);
+        }
+
+        if (currentMovement.left)
+        {
+            // right forwards, left backwards to turn left
+            SetRightTorque(turnSpeed);
+            SetLeftTorque(-turnSpeed);
+        }
+
+        if (currentMovement.right)
+        {
+            // left forwards, right backwards to turn right
+            SetLeftTorque(turnSpeed);
+            SetRightTorque(-turnSpeed);
+        }
+
+
+        // We adjust the sideways friction of the wheels depending on whether the tank is being moved or not.
+        // This is important because we can reduce it when the tank is at rest and that allows it to swivel in place
+        // but when it is travelling at speed we need to increase that friction so the tank doesn't spin out
+        if (rb.velocity.magnitude <= velocityBeforeConsideringToBeTravelling)
+        {
+            SetSidewaysStiffness(sidewaysStiffnessAtRest);
+        } else
+        {
+            SetSidewaysStiffness(sidewaysStiffnessAtTravel);
+        }
     }
 }
