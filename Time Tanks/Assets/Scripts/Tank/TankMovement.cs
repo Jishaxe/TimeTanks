@@ -6,7 +6,7 @@ using UnityEngine;
 public class TankMovement : MonoBehaviour
 {
     Tank tank;
-    MovementControl currentMovement;
+    public MovementControl currentMovement;
 
     public Rigidbody rb;
 
@@ -112,5 +112,16 @@ public class TankMovement : MonoBehaviour
         {
             SetSidewaysStiffness(sidewaysStiffnessAtTravel);
         }
+    }
+
+    public float GetCurrentSpeed()
+    {
+        return rb.velocity.magnitude;
+    }
+
+    // returns true if any of the wheels have power
+    public bool AreWheelsPowered()
+    {
+        return (currentMovement.forwards || currentMovement.reverse || currentMovement.left || currentMovement.right);
     }
 }

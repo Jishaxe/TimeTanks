@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerTankControl : TankControl
 {
+    MovementControl prevMovement;
+
     private void Update()
     {
         MovementControl movement;
@@ -13,7 +15,12 @@ public class PlayerTankControl : TankControl
         movement.left = Input.GetKey(KeyCode.A);
         movement.right = Input.GetKey(KeyCode.D);
 
-        tank.Move(movement);
+        // only send new movement if it's changed since last frame
+        if (prevMovement.forwards != movement.forwards || prevMovement.right != movement.right || prevMovement.left != movement.left || prevMovement.reverse || movement.reverse)
+        {
+            tank.Move(movement);
+            prevMovement = movement;
+        }
     }
 }
 
