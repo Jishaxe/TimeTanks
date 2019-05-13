@@ -275,6 +275,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Hatch
+    second: {fileID: 2100000, guid: 794a22afb7a1cb8459a85fbf87ab7a18, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Lower
     second: {fileID: 2100000, guid: 81cfcd9bc8643f141a922e516981fda9, type: 2}
   - first:

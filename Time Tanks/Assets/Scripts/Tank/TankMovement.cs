@@ -7,7 +7,6 @@ public class TankMovement : MonoBehaviour
 {
     Tank tank;
     public MovementControl currentMovement;
-
     public Rigidbody rb;
 
     // Keep turnSpeed pretty close to forwardSpeed otherwise turning while going forwards slows tank down
@@ -23,6 +22,9 @@ public class TankMovement : MonoBehaviour
 
     public WheelCollider[] leftWheels;
     public WheelCollider[] rightWheels;
+
+    // how much to boost by. multiplies the torque values. 0 = no boost
+    float boostMultiplier = 1;
 
     private void Awake()
     {
@@ -76,29 +78,31 @@ public class TankMovement : MonoBehaviour
         if (currentMovement.forwards)
         {
             // both treads at same speed to go forwards
-            SetLeftTorque(forwardSpeed);
-            SetRightTorque(forwardSpeed);
+            SetLeftTorque(forwardSpeed * boostMultiplier);
+            SetRightTorque(forwardSpeed * boostMultiplier);
         }
 
         if (currentMovement.reverse)
         {
             // and both on reverse for backwards
-            SetLeftTorque(-reverseSpeed);
-            SetRightTorque(-reverseSpeed);
+            SetLeftTorque(-reverseSpeed * boostMultiplier);
+            SetRightTorque(-reverseSpeed * boostMultiplier);
         }
+
+        int flipLeftAndRightBecauseOfReversing = currentMovement.reverse ? -1 : 1; // set to -1 when reversing
 
         if (currentMovement.left)
         {
             // right forwards, left backwards to turn left
-            SetRightTorque(turnSpeed);
-            SetLeftTorque(-turnSpeed);
+            SetRightTorque(turnSpeed * flipLeftAndRightBecauseOfReversing * boostMultiplier);
+            SetLeftTorque(-turnSpeed * flipLeftAndRightBecauseOfReversing * boostMultiplier);
         }
 
         if (currentMovement.right)
         {
             // left forwards, right backwards to turn right
-            SetLeftTorque(turnSpeed);
-            SetRightTorque(-turnSpeed);
+            SetLeftTorque(turnSpeed * flipLeftAndRightBecauseOfReversing * boostMultiplier);
+            SetRightTorque(-turnSpeed * flipLeftAndRightBecauseOfReversing * boostMultiplier);
         }
 
 
@@ -112,6 +116,21 @@ public class TankMovement : MonoBehaviour
         {
             SetSidewaysStiffness(sidewaysStiffnessAtTravel);
         }
+    }
+
+    // Multiply the torques by a certain amount for a certain amount of seconds
+    public void Boost(float boostBy, float boostBySeconds)
+    {
+        // don't restart the coroutine if we're already boosting, just update the boost amount
+        if (boostMultiplier == 1) StartCoroutine(StopBoostingAfter(boostBySeconds));
+
+        boostMultiplier = boostBy;
+    }
+
+    public IEnumerator StopBoostingAfter(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        boostMultiplier = 1;
     }
 
     public float GetCurrentSpeed()
