@@ -3,17 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class TankMovement : MonoBehaviour
 {
     Tank tank;
     public MovementControl currentMovement;
     public Rigidbody rb;
 
+    // This are the maximum speeds the engine can reach
     // Keep turnSpeed pretty close to forwardSpeed otherwise turning while going forwards slows tank down
     public float forwardSpeed;
     public float reverseSpeed;
-    public float brakeTorque;
     public float turnSpeed;
+
+    float engineSpeed = 0;
+    public float engineAcceleration = 0.1f; // the forward/reverse/turnSpeed is multiplied by this number then added to engineSpeed
+    public float engineDeceleration = 0.95f; // multiplies engineSpeed by this every update
 
     // Sideways friction changes when tank is at speed.
     public float velocityBeforeConsideringToBeTravelling;
@@ -68,41 +73,55 @@ public class TankMovement : MonoBehaviour
         }
     }
 
+    // apply the maximum * acceleration to the engine speed, then cap it at maximum
+    public void AccelerateEngine(float maximum)
+    {
+        engineSpeed = Mathf.Clamp(engineSpeed + (maximum * engineAcceleration), 0, maximum);
+    }
+
     public void Update()
     {
         // Reset the motor speed from last update
-        SetLeftTorque(0);
-        SetRightTorque(0);
+        SetLeftTorque(engineSpeed);
+        SetRightTorque(engineSpeed);
 
 
         if (currentMovement.forwards)
         {
+            AccelerateEngine(forwardSpeed * boostMultiplier);
+
             // both treads at same speed to go forwards
-            SetLeftTorque(forwardSpeed * boostMultiplier);
-            SetRightTorque(forwardSpeed * boostMultiplier);
+            SetLeftTorque(engineSpeed);
+            SetRightTorque(engineSpeed);
         }
 
         if (currentMovement.reverse)
         {
+            AccelerateEngine(reverseSpeed * boostMultiplier);
+
             // and both on reverse for backwards
-            SetLeftTorque(-reverseSpeed * boostMultiplier);
-            SetRightTorque(-reverseSpeed * boostMultiplier);
+            SetLeftTorque(-reverseSpeed);
+            SetRightTorque(-reverseSpeed);
         }
 
         int flipLeftAndRightBecauseOfReversing = currentMovement.reverse ? -1 : 1; // set to -1 when reversing
 
         if (currentMovement.left)
         {
+            AccelerateEngine(turnSpeed * boostMultiplier);
+
             // right forwards, left backwards to turn left
-            SetRightTorque(turnSpeed * flipLeftAndRightBecauseOfReversing * boostMultiplier);
-            SetLeftTorque(-turnSpeed * flipLeftAndRightBecauseOfReversing * boostMultiplier);
+            SetRightTorque(engineSpeed * flipLeftAndRightBecauseOfReversing);
+            SetLeftTorque(-engineSpeed * flipLeftAndRightBecauseOfReversing);
         }
 
         if (currentMovement.right)
         {
+            AccelerateEngine(turnSpeed * boostMultiplier);
+
             // left forwards, right backwards to turn right
-            SetLeftTorque(turnSpeed * flipLeftAndRightBecauseOfReversing * boostMultiplier);
-            SetRightTorque(-turnSpeed * flipLeftAndRightBecauseOfReversing * boostMultiplier);
+            SetLeftTorque(engineSpeed * flipLeftAndRightBecauseOfReversing * boostMultiplier);
+            SetRightTorque(-engineSpeed * flipLeftAndRightBecauseOfReversing * boostMultiplier);
         }
 
 
@@ -115,6 +134,12 @@ public class TankMovement : MonoBehaviour
         } else
         {
             SetSidewaysStiffness(sidewaysStiffnessAtTravel);
+        }
+
+        if (!this.AreWheelsPowered())
+        {
+            engineSpeed *= engineDeceleration; // decelerate the engine if there is no power running to it
+            if (engineSpeed < 0.01f) engineSpeed = 0;
         }
     }
 
@@ -133,9 +158,31 @@ public class TankMovement : MonoBehaviour
         boostMultiplier = 1;
     }
 
+    // return the highest engine speed it can reach without boost
+    public float GetMaximumEngineSpeed()
+    {
+        return Mathf.Max(new float[] { forwardSpeed, turnSpeed, reverseSpeed });
+    }
+
+    public float GetEngineSpeed()
+    {
+        return engineSpeed;
+    }
+
     public float GetCurrentSpeed()
     {
         return rb.velocity.magnitude;
+    }
+
+    public float GetCurrentRPM()
+    {
+        // Return the averaged RPM across all the wheels, always positive
+
+        float total = 0;
+        foreach (WheelCollider wheel in leftWheels) total += Mathf.Abs(wheel.rpm);
+        foreach (WheelCollider wheel in rightWheels) total += Mathf.Abs(wheel.rpm);
+
+        return total / (leftWheels.Length + rightWheels.Length);
     }
 
     // returns true if any of the wheels have power
